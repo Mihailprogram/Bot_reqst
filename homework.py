@@ -137,7 +137,7 @@ def main():
                 pass
             else:
                 mas_false[0] = message
-            send_message(bot, mas_false[0])
+                send_message(bot, mas_false[0])
         time.sleep(RETRY_PERIOD)
 
 
