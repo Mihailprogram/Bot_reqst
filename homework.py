@@ -42,7 +42,7 @@ HOMEWORK_VERDICTS = {
 
 
 def check_tokens():
-    """Функция проверяет есть ли данные в переменных"""
+    """Функция проверяет есть ли данные в переменных."""
     if ((PRACTICUM_TOKEN is None) or (TELEGRAM_TOKEN is None)
             or (TELEGRAM_CHAT_ID is None)):
         return False
@@ -50,7 +50,7 @@ def check_tokens():
 
 
 def send_message(bot, message):
-    """Функция отправляет сообщение пользователю"""
+    """Функция отправляет сообщение пользователю."""
     try:
         logger.debug('Сообщение в чат {TELEGRAM_CHAT_ID}: {message}')
         bot.send_message(TELEGRAM_CHAT_ID, message)
@@ -59,7 +59,7 @@ def send_message(bot, message):
 
 
 def get_api_answer(timestamp):
-    """Функция делает запрос к API"""
+    """Функция делает запрос к API."""
     try:
         response = requests.get(ENDPOINT, headers=HEADERS, params={
             'from_date': timestamp,
@@ -75,7 +75,7 @@ def get_api_answer(timestamp):
 
 
 def check_response(response):
-    """Функция проверяет данные и возвращает словарь"""
+    """Функция проверяет данные и возвращает словарь."""
     if type(response) != dict:
         raise TypeError('Ответ API отличен от словаря')
     try:
@@ -94,7 +94,7 @@ def check_response(response):
 
 
 def parse_status(homework):
-    """Фунция возвращает данные"""
+    """Фунция возвращает данные."""
     if 'homework_name' not in homework:
         raise KeyError('Отсутствует ключ "homework_name" в ответе API')
     if 'status' not in homework:
