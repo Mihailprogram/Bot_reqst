@@ -54,7 +54,9 @@ def send_message(bot, message):
         logger.debug(f'Сообщение в чат {TELEGRAM_CHAT_ID}: {message}')
         bot.send_message(TELEGRAM_CHAT_ID, message)
     except Exception as eror:
-        logger.error('Ошибка отправки сообщения в телеграм')#РОМАН, без этой строчки у меня не проходят тесты
+        logger.error('Ошибка отправки сообщения в телеграм')
+        # РОМАН, без этой строчки выше у меня не проходят тесты,"
+        # TestHomework.test_send_message_with_tg_error, "
         raise exceptions.TelegramError(f'Ошибка при отправке сообщения,{eror}')
     else:
         logger.info(f'сообщение {message}')
