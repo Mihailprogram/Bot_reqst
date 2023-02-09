@@ -341,7 +341,7 @@ class TestHomework:
             else:
                 raise AssertionError(
                     f'Убедитесь, что функция `{func_name}` выбрасывает '
-                    'исключение, когда API домашки возвращает недокументированный '
+                    'исключение, когда API домашки возвращает недокументированный'
                     'статус домашней работы либо домашку без статуса.'
                 )
 
@@ -452,8 +452,7 @@ class TestHomework:
                           caplog, homework_module):
         homework_module.PRACTICUM_TOKEN = 'sometoken'
         homework_module.TELEGRAM_TOKEN = '1234:abcdefg'
-        homework_module.TELEGRAM_CHAT_ID = '12345'
-        
+        homework_module.TELEGRAM_CHAT_ID = '12345'  
         func_name = 'send_message'
         utils.check_function(
             homework_module,
