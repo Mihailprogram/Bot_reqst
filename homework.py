@@ -45,10 +45,7 @@ HOMEWORK_VERDICTS = {
 
 def check_tokens():
     """Функция проверяет есть ли данные в переменных."""
-    if ((PRACTICUM_TOKEN is None) or (TELEGRAM_TOKEN is None)
-            or (TELEGRAM_CHAT_ID is None)):
-        return False
-    return True
+    return all([TELEGRAM_TOKEN, PRACTICUM_TOKEN, TELEGRAM_CHAT_ID])
 
 
 def send_message(bot, message):
