@@ -1,13 +1,14 @@
 import time
 import os
+
 import requests
 import logging
 import telegram
-import exceptions
 from http import HTTPStatus
 from logging.handlers import RotatingFileHandler
 from dotenv import load_dotenv
 
+import exceptions
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -53,11 +54,9 @@ def send_message(bot, message):
     try:
         logger.debug(f'Сообщение в чат {TELEGRAM_CHAT_ID}: {message}')
         bot.send_message(TELEGRAM_CHAT_ID, message)
-    except Exception as eror:
-        logger.error('Ошибка отправки сообщения в телеграм')
-        # РОМАН, без этой строчки выше у меня не проходят тесты,"
-        # TestHomework.test_send_message_with_tg_error, "
-        raise exceptions.TelegramError(f'Ошибка при отправке сообщения,{eror}')
+    except telegram.error.TelegramError:
+        logger.error('ошибка при отправке')
+        raise exceptions.TelegramError('Ошибка при отправке сообщения')
     else:
         logger.info(f'сообщение {message}')
 
@@ -81,7 +80,7 @@ def check_response(response):
         raise TypeError('Ответ API отличен от словаря')
     try:
         list_works = response.get('homeworks')
-        if type(list_works) != list:
+        if isinstance(list_works, list) is not True:
             raise TypeError('нет списка')
     except KeyError:
         raise KeyError('Ошибка словаря по ключу homeworks')
@@ -113,7 +112,7 @@ def main():
         raise Exception('Отсутствуют одна или несколько переменных окружения')
 
     bot = telegram.Bot(token=TELEGRAM_TOKEN)
-    timestamp = 0
+    timestamp = int(time.time())
     mas_true = [0, ]
     mas_false = [0, ]
     while True:
@@ -121,15 +120,14 @@ def main():
 
             response = get_api_answer(timestamp)
             chek = check_response(response)
-            if len(chek[0]) == 0:
-                raise exceptions.InvalidRes("Список пуст")
             status = parse_status(chek[0])
-            print(status)
             if status in mas_true:
                 logger.debug('Нет обновлений')
             else:
                 mas_true[0] = status
                 send_message(bot, mas_true[0])
+        except IndexError:
+            send_message(bot, "Список пуст")
         except exceptions.NotForSending as error:
             message = f'Сбой в работе программы: {error}'
             logging.error(message)
